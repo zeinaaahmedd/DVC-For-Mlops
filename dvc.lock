@@ -1,0 +1,62 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python preprocessing.py
+    deps:
+    - path: data/MELBOURNE_HOUSE_PRICES_LESS.csv
+      hash: md5
+      md5: cc467c28044d01770d8784cf287d1b6e
+      size: 7296418
+    - path: preprocessing.py
+      hash: md5
+      md5: a0167f97cf0c279fdf3d46e275cf95c6
+      size: 1420
+    outs:
+    - path: data/test.csv
+      hash: md5
+      md5: 2e2f3757bb9f92e9a6c70d6bc4d89b79
+      size: 144124
+    - path: data/train.csv
+      hash: md5
+      md5: 2acb8cf5c484961b27f26d08b2e3eba3
+      size: 576189
+  train:
+    cmd: python train.py
+    deps:
+    - path: data/train.csv
+      hash: md5
+      md5: 2acb8cf5c484961b27f26d08b2e3eba3
+      size: 576189
+    - path: train.py
+      hash: md5
+      md5: 59bf3e51b1423528e00bb8612c84aa61
+      size: 734
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: d80def7f19dd3baf52b671c57f043f71
+      size: 14762665
+  evaluate:
+    cmd: python validation.py
+    deps:
+    - path: data/test.csv
+      hash: md5
+      md5: 2e2f3757bb9f92e9a6c70d6bc4d89b79
+      size: 144124
+    - path: models/model.joblib
+      hash: md5
+      md5: d80def7f19dd3baf52b671c57f043f71
+      size: 14762665
+    - path: validation.py
+      hash: md5
+      md5: 19ca47939cb52286ee6f18a463d968d6
+      size: 1128
+    outs:
+    - path: confusion_matrix.png
+      hash: md5
+      md5: 4200fa482acfb8b10216781fce02bf35
+      size: 23865
+    - path: metrics.json
+      hash: md5
+      md5: 08549fa61d096c4d41fdc4e64337c13e
+      size: 31
